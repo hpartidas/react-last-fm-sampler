@@ -4,13 +4,14 @@ import config from '../config/config';
 import '../css/App.css';
 
 import Artist from './Artist';
+import Header from './Header';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       topAlbums: {},
-      artists: {}
+      artists: {},
     };
 
     this.getTopAlbums = this.getTopAlbums.bind(this);
@@ -18,9 +19,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const artists = localStorage.getItem(`top-50-artists`);
+    const artists = localStorage.getItem('top-50-artists');
     if (artists) {
-      this.setState({artists: artists});
+      this.setState({artists});
     } else {
       this.getTopArtists();
     }
@@ -34,14 +35,12 @@ class App extends Component {
         }
         throw Error(response.statusText);
       })
-      .then((response) => {
-        return response.json();
-      })
+      .then(response => response.json())
       .then((data) => {
         let artists = {...this.state.artists};
         artists = {...data.artists.artist};
-        this.setState({artists: artists});
-        localStorage.setItem(`top-50-artists`, artists.toJSON());
+        this.setState({artists});
+        localStorage.setItem('top-50-artists', artists.toJSON());
       })
       .catch((error) => {
         console.log(`Request failed with error: ${error}`);
@@ -61,14 +60,17 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <h1>Top Artists</h1>
-        <div className="artist-list">
-          {
-            Object
-              .keys(this.state.artists)
-              .map(idx => <Artist key={idx} idx={idx} details={this.state.artists[idx]}/>)
-          }
+      <div>
+        <Header />
+        <div className="App">
+          <h1>Top Artists</h1>
+          <div className="artist-list">
+            {
+              Object
+                .keys(this.state.artists)
+                .map(idx => <Artist key={idx} idx={idx} details={this.state.artists[idx]}/>)
+            }
+          </div>
         </div>
       </div>
     );

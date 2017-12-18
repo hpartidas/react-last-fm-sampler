@@ -1,25 +1,10 @@
 import React from 'react';
-import {render} from 'react-dom';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import './css/index.css';
+import { render } from 'react-dom';
 
-import App from './components/App';
-import Details from './components/Details';
-import NotFound from './components/NotFound';
+import Root from './components/Root';
 
 import registerServiceWorker from './services/registerServiceWorker';
 
-const Root = () => (
-  <BrowserRouter>
-      <div className="root">
-          <Switch>
-              <Route exact path="/" component={App} />
-              <Route path="artist/:artist/" component={Details} />
-              <Route component={NotFound}/>
-          </Switch>
-      </div>
-  </BrowserRouter>
-);
 
-render(<Root />, document.getElementById('root'));
+render(React.createElement(Root), document.getElementById('root'));
 registerServiceWorker();
